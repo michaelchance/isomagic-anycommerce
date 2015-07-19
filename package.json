@@ -1,0 +1,11 @@
+{
+  "name": "isomagic-anycommerce",
+  "version": "0.0.1",
+  "description": "An IsoMagic extension that works with the CommerceRack back end",
+  "main": "anycommerce.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "michael chance",
+  "license": "MIT"
+}
