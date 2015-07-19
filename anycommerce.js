@@ -67,7 +67,7 @@
 					if(url.charAt(url.length-1) == '-'){
 						url = url.slice(0,url.length-1);
 						}
-					if(url.charAt(url.length-1 != '/'){
+					if(url.charAt(url.length-1) != '/'){
 						url += '/';
 						}
 					url+=name;
