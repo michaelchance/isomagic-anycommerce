@@ -235,7 +235,7 @@
 			//throw an exception
 			}
 		var apiClient = root.apiClient || require('./api-client');
-		var apiurl = _self.server() ? "http://" : "//";
+		var apiurl = _app.server() ? "http://" : "//";
 		apiurl += config.domain+"/jsonapi/"
 		_app.model = new apiClient({
 			apiurl : apiurl
