@@ -234,7 +234,7 @@
 		if(!config.domain || !config.mediaUrl){
 			//throw an exception
 			}
-		var apiClient = window.apiClient || require('./api-client');
+		var apiClient = root.apiClient || require('./api-client');
 		var apiurl = _self.server() ? "http://" : "//";
 		apiurl += config.domain+"/jsonapi/"
 		_app.model = new apiClient({
