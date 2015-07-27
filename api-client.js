@@ -20,7 +20,16 @@
 		this.queue = [];
 			
 		}
-
+	
+	API.prototype.updateCartId = function(_cartid){
+		if(_cartid){
+			this._cartid = _cartid;
+			}
+		else {
+			delete this._cartid;
+			}
+		}
+	
 	API.prototype._pipeline = function(){
 		var r = {
 			req : {
@@ -34,6 +43,9 @@
 			}
 		if(this._session){
 			r.req._session = this._session;
+			}
+		if(this._cartid){
+			r.req._cartid = this._cartid;
 			}
 		return r;
 		}
@@ -70,8 +82,9 @@
 				pipeMap[currPipe] = [];
 				}
 			var requestObj = q[i];
-			pipes[currPipe].req['@cmds'].push(requestObj.request);
-			pipes[currPipe].url += requestObj.request._cmd+"-";
+			var request = requestObj.request;
+			pipes[currPipe].req['@cmds'].push(request);
+			pipes[currPipe].url += request._cmd+"-";
 			pipeMap[currPipe].push(requestObj);
 			}
 		//dispatch them
