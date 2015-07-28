@@ -1,6 +1,6 @@
 {
   "name": "isomagic-anycommerce",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "An IsoMagic extension that works with the CommerceRack back end",
   "main": "anycommerce.js",
   "scripts": {
