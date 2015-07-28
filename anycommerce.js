@@ -75,12 +75,15 @@
 					}
 				},
 			u : {
+				getDomain : function(){
+					return config.domain;
+					},
 				getSecureUrl : function(){
 					if(window.location.hostname == "localhost"){
-						return "/"
+						return "/";
 						}
 					else {
-						return "https://"+config.secureDomain"+/"
+						return "https://"+config.secureDomain+"/";
 						}
 					},
 				//These functions take messages (and errids) and transform them into various message types for anymessage
@@ -617,6 +620,7 @@
 		var apiurl = _app.server() ? "http://" : "//";
 		apiurl += config.domain+"/jsonapi/"
 		_app.model = new apiClient({
+			domain : config.domain,
 			apiurl : apiurl
 			});
 			
