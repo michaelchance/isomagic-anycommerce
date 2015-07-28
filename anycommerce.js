@@ -75,6 +75,14 @@
 					}
 				},
 			u : {
+				getSecureUrl : function(){
+					if(window.location.hostname == "localhost"){
+						return "/"
+						}
+					else {
+						return "https://"+config.secureDomain"+/"
+						}
+					},
 				//These functions take messages (and errids) and transform them into various message types for anymessage
 				successMsgObject : function(msg)	{
 					return {'errid':'#','errmsg':msg,'message':msg,'errtype':'success','iconClass':'app-icon-success'}
@@ -295,9 +303,9 @@
 						qty = $tag.prop(qtyAttr);
 						}
 					console.log('cartqtyupdate');
-					console.log(context.focus());
+					console.log(stid);
 					console.log(qty);
-					if(stid && (qty || qty == 0) && uuid){
+					if(stid && (qty || qty == 0)){
 						var request = {
 							"_cmd" : "cartItemUpdate",
 							"stid" : stid,
@@ -305,6 +313,7 @@
 							}
 						_app.model.enqueue(request);
 						_app.ext.anycommerce.u.updateCart(null, function(){
+							console.log('cart updated');
 							_app.ext.pager.u.refresh('/cart');
 							});
 						return true;
