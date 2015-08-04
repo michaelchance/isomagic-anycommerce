@@ -444,6 +444,29 @@
 					$(":input[placeholder]",$context).not(['title']).each(function(){
 						$(this).attr('title',$(this).attr('placeholder'));
 						});
+					$('.applyButtonset',$context).each(function(){
+						$(this).buttonset();
+						});
+					$('.applyButton',$context).each(function(index){
+//					_app.u.dump(" -> index: "+index);
+						var $btn = $(this);
+						$btn.button();
+// SANITY -> $btn may NOT be on the DOM when this is run.
+						if($btn.data('icon-primary') && $btn.data('icon-secondary'))	{
+							$btn.button( "option", "icons", { primary: $btn.data('icon-primary'), secondary: $btn.data('icon-secondary')} );
+							}
+						else if($btn.data('icon-primary'))	{
+							$btn.button( "option", "icons", { primary: $btn.data('icon-primary')} );
+							}
+						else if($btn.data('icon-secondary'))	{
+							$btn.button( "option", "icons", { secondary: $btn.data('icon-secondary')} );
+							}
+						else	{} //no icon specified.
+						
+						if($btn.data('text') === false)	{
+							$btn.button( "option", "text", false );
+							}
+						});
 					next();
 					},
 				buyerAddressList : function(req,res,next){
