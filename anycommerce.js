@@ -233,6 +233,7 @@
 							_app.model.updateCartId(_cartid);
 							}
 						_app.model.enqueue({"_cmd":"cartItemsInventoryVerify"},function(data){
+							
 							for(var i in data['%changes']){
 								_app.model.enqueue({
 									'_cmd':'cartItemUpdate',
@@ -240,7 +241,9 @@
 									'quantity' : data['%changes'][i]
 									});
 								}
-							if(data['%changes'] && data['%changes'].length){
+							if(data['%changes'] && !$.isEmptyObject(data['%changes'])){
+								// console.log('sending global message');
+								_app.ext.anycommerce.u.globalmessage("Some items in your <a href='/cart'>cart</a> have had their quantities changed to reflect availability");
 								_app.model.dispatch(function(){
 									_app.model.enqueue({"_cmd":"cartDetail"}, function(cart){
 										_app.cart = cart;
@@ -338,6 +341,7 @@
 						"uuid" : new Date().getTime()
 						}
 					_app.model.enqueue(request, function(data){
+						_app.ext.anycommerce.u.globalmessage(_app.ext.anycommerce.u.successMsgObject('Your item has been added to your <a href="/cart">cart</a>!'));
 						console.log(data);
 						});
 					_app.ext.anycommerce.u.updateCart(null, function(cart){
@@ -348,10 +352,17 @@
 					},
 				imageurl : function(context){
 					var url = config.mediaUrl;
-					
 					var w = context.args('w');
 					var h = context.args('h');
 					var b = context.args('b');
+					if(context.$focus().is('img')){
+						if(!w && context.$focus().attr('data-width')){
+							w = context.$focus().attr('data-width');
+							}
+						if(!h && context.$focus().attr('data-height')){
+							h = context.$focus().attr('data-height');
+							}
+						}
 					var name = context.args('name');
 					if(!w && !h && !b){
 						url +="-/";
@@ -561,23 +572,24 @@
 								"type" : "product",
 								"mode" : "elastic-search",
 								"size" : size,
-								"query":{
-									"function_score" : {										
-										"query" : {
-											"query_string":{"query":k}	
-											},
-										"functions" : [
-											{
-												"filter" : {"query" : {"query_string":{"query":'"'+k+'"'}}},
-												"script_score" : {
-													"script":"constant",
-													"params":{"constant":10}
-													},
-												}
-											],
-										"boost_mode" : "sum",
-										}
-									}
+								"query":{"query_string":{"query":k}}
+								// "query":{
+									// "function_score" : {										
+										// "query" : {
+											// "query_string":{"query":k}	
+											// },
+										// "functions" : [
+											// {
+												// "filter" : {"query" : {"query_string":{"query":'"'+k+'"'}}},
+												// "script_score" : {
+													// "script":"constant",
+													// "params":{"constant":10}
+													// },
+												// }
+											// ],
+										// "boost_mode" : "sum",
+										// }
+									// }
 								},function(data){
 								res.data[datapointer] = data;
 								});
